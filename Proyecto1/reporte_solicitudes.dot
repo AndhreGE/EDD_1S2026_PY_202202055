@@ -1,0 +1,7 @@
+digraph G {
+  rankdir=LR;
+  node [shape=circle];
+  label="Solicitudes Pendientes: 1";
+  sol0 [label="No. 1\nEmergencias\nTylenol"];
+  sol0 -> sol0 [dir=both, constraint=false];
+}

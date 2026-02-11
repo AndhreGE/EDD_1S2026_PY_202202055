@@ -1,0 +1,4 @@
+codigo, nombre, principio_activo, laboratorio, precio_unitario, cantidad, fecha_vencimiento, nivel_minimo
+MED001, Tylenol, Paracetamol, LabFarma, 2.50, 5000, 2026-12-31, 500
+MED002, Amoxil, Amoxicilina, MediPharma, 12.50, 3000, 2026-08-15, 300
+MED003, Advil, Ibuprofeno, GenericLab, 4.20, 4500, 2026-10-20, 450

@@ -1,0 +1,9 @@
+digraph G {
+  rankdir=TB;
+  node [shape=box];
+  label="Proveedores y Entregas";
+  prov0 [label="NIT: 123-K\nFarmacia Central", style=bold];
+  prov0 -> prov0 [constraint=false];
+  prov0 -> ent_0_0;
+  ent_0_0 [label="Fact: FAC-001\nCant: 100", shape=ellipse];
+}

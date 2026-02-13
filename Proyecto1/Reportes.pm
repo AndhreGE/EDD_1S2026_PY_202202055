@@ -11,37 +11,39 @@ sub generar_inventario {
     open(my $dot, '>', $nombre_dot) or die "Error al crear archivo dot";
     
     print $dot "digraph G {\n";
-    print $dot "  rankdir=LR;\n";
-    print $dot "  node [shape=record, style=filled, fillcolor=white];\n";
+    print $dot "  rankdir=LR;\n"; # Esto obliga la orientación de Izquierda a Derecha
+    print $dot "  node [shape=record, style=filled];\n";
     print $dot "  label=\"Inventario - EDD MedTrack\";\n";
 
     my $actual = $head;
     my $id = 0;
 
+    # --- PASO 1: Declarar todos los nodos primero ---
     while (defined $actual) {
-        # Lógica de colores según enunciado: Rojo (bajo stock), Amarillo (próximo a vencer), Verde (normal) [cite: 157]
-        my $color = "green";
-        if ($actual->{cantidad} < $actual->{nivel_min}) {
-            $color = "red";
-        }
-
-        # Nodo con formato de registro [cite: 152, 155]
+        my $color = ($actual->{cantidad} < $actual->{nivel_min}) ? "red" : "green";
+        
+        # Nodo con formato de registro
         print $dot "  nodo$id [fillcolor=$color, label=\"{Cod: $actual->{codigo} | $actual->{nombre} | Cant: $actual->{cantidad} | Vence: $actual->{fecha_venc}}\"];\n";
-
-        # Flechas bidireccionales [cite: 153, 155]
-        if (defined $actual->{next}) {
-            my $sig = $id + 1;
-            print $dot "  nodo$id -> nodo$sig [dir=both];\n";
-        }
-
+        
         $actual = $actual->{next};
         $id++;
+    }
+
+    # --- PASO 2: Crear los enlaces bidireccionales ---
+    $actual = $head;
+    my $current_id = 0;
+    while (defined $actual && defined $actual->{next}) {
+        my $next_id = $current_id + 1;
+        # La flecha 'both' indica que es doblemente enlazada visualmente
+        print $dot "  nodo$current_id -> nodo$next_id [dir=both];\n";
+        
+        $actual = $actual->{next};
+        $current_id++;
     }
 
     print $dot "}\n";
     close($dot);
     
-    # Ejecución del comando dot en el sistema [cite: 230]
     system("dot -Tpng $nombre_dot -o $nombre_png");
 }
 
@@ -105,7 +107,6 @@ sub generar_proveedores {
     system("dot -Tpng $nombre_dot -o $nombre_png");
 }
 
-# En Reportes.pm
 sub generar_solicitudes {
     my ($class, $head) = @_;
     return if !defined $head;
@@ -139,6 +140,36 @@ sub generar_solicitudes {
     print $dot "}\n";
     close($dot);
     system("dot -Tpng $nombre_dot -o $nombre_png");
+}
+
+
+sub generar_matriz {
+    my ($class, $r_filas, $r_columnas) = @_;
+    return if !defined $r_filas;
+
+    my $nombre_dot = "reporte_matriz.dot";
+    open(my $dot, '>', $nombre_dot);
+    print $dot "digraph G {\n  node [shape=box];\n  rankdir=TB;\n";
+
+    # Graficar Cabeceras de Filas (Medicamentos)
+    my $f = $r_filas;
+    while (defined $f) {
+        print $dot "  fila_$f->{id} [label=\"$f->{id}\", color=blue];\n";
+        
+        # Graficar nodos de la fila
+        my $nodo = $f->{access};
+        while (defined $nodo) {
+            my $node_id = $f->{id} . "_" . $nodo->{codigo};
+            print $dot "  celda_$node_id [label=\"Q$nodo->{precio}\", shape=circle];\n";
+            print $dot "  fila_$f->{id} -> celda_$node_id [constraint=false];\n";
+            $nodo = $nodo->{right};
+        }
+        $f = $f->{next};
+    }
+    
+    print $dot "}\n";
+    close($dot);
+    system("dot -Tpng $nombre_dot -o reporte_matriz.png");
 }
 
 1;

@@ -2,8 +2,10 @@ digraph G {
   rankdir=TB;
   node [shape=box];
   label="Proveedores y Entregas";
-  prov0 [label="NIT: 123-K\nFarmacia Central", style=bold];
-  prov0 -> prov0 [constraint=false];
-  prov0 -> ent_0_0;
-  ent_0_0 [label="Fact: FAC-001\nCant: 100", shape=ellipse];
+  prov0 [label="NIT: 8002126\nEmpagua", style=bold];
+  prov0 -> prov1;
+  prov1 [label="NIT: 83800654\ntelevisa", style=bold];
+  prov1 -> prov2;
+  prov2 [label="NIT: 098765454\nUsac", style=bold];
+  prov2 -> prov0 [constraint=false];
 }

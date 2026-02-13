@@ -30,7 +30,7 @@ sub crear_entrega {
     };
 }
 
-# En Nodo.pm
+
 sub crear_solicitud {
     my ($class, $numero, $depto, $med, $cant, $prioridad) = @_;
     return {
@@ -41,6 +41,32 @@ sub crear_solicitud {
         prioridad => $prioridad,
         next     => undef,
         prev     => undef
+    };
+}
+
+# Nodo para las cabeceras (Filas y Columnas)
+sub crear_cabecera {
+    my ($class, $id) = @_;
+    return {
+        id   => $id,
+        next => undef,
+        prev => undef,
+        access => undef # Puntero hacia la fila o columna de datos
+    };
+}
+
+# Nodo de Valor (La celda de la matriz)
+sub crear_celda_matriz {
+    my ($class, $codigo, $cantidad, $fecha, $precio) = @_;
+    return {
+        codigo   => $codigo,
+        cantidad => $cantidad,
+        fecha    => $fecha,
+        precio   => $precio,
+        up    => undef,
+        down  => undef,
+        left  => undef,
+        right => undef
     };
 }
 

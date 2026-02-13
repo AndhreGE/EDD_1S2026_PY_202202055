@@ -1,10 +1,5 @@
 digraph G {
   rankdir=LR;
-  node [shape=record, style=filled, fillcolor=white];
+  node [shape=record, style=filled];
   label="Inventario - EDD MedTrack";
-  nodo0 [fillcolor=green, label="{Cod: MED001 | Tylenol | Cant: 5000 | Vence: 2026-12-31}"];
-  nodo0 -> nodo1 [dir=both];
-  nodo1 [fillcolor=green, label="{Cod: MED002 | Amoxil | Cant: 3000 | Vence: 2026-08-15}"];
-  nodo1 -> nodo2 [dir=both];
-  nodo2 [fillcolor=green, label="{Cod: MED003 | Advil | Cant: 4500 | Vence: 2026-10-20}"];
 }

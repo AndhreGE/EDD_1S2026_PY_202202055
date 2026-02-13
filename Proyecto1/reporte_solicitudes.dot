@@ -1,7 +1,11 @@
 digraph G {
   rankdir=LR;
   node [shape=circle];
-  label="Solicitudes Pendientes: 1";
-  sol0 [label="No. 1\nEmergencias\nTylenol"];
-  sol0 -> sol0 [dir=both, constraint=false];
+  label="Solicitudes Pendientes: 3";
+  sol0 [label="No. 1\n1234\nMED001"];
+  sol0 -> sol1 [dir=both];
+  sol1 [label="No. 2\n1234\nMED001"];
+  sol1 -> sol2 [dir=both];
+  sol2 [label="No. 3\n1234\nMED002"];
+  sol2 -> sol0 [dir=both, constraint=false];
 }

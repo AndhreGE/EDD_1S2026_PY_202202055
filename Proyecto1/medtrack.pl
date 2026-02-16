@@ -55,13 +55,28 @@ sub menu_administrador {
         $op = <STDIN>; chomp($op);
 
         if ($op == 1) {
-            # Opción 1: Registro manual en la Lista Doblemente Enlazada [cite: 48, 50]
+            # Opción 1: Registro manual con validación de datos
             print "Codigo: "; my $cod = <STDIN>; chomp($cod);
             print "Nombre: "; my $nom = <STDIN>; chomp($nom);
             print "Principio Activo: "; my $pa = <STDIN>; chomp($pa);
             print "Laboratorio: "; my $lab = <STDIN>; chomp($lab);
-            print "Precio: "; my $pre = <STDIN>; chomp($pre);
-            print "Cantidad: "; my $can = <STDIN>; chomp($can);
+
+            # Validación de Precio (Solo una vez)
+            my $pre;
+            while (1) {
+                print "Precio unitario: "; $pre = <STDIN>; chomp($pre);
+                last if es_numero_valido($pre);
+                print "¡Error! Ingrese un numero decimal valido (ej: 10.50).\n";
+            }
+
+            # Validación de Cantidad (Solo una vez)
+            my $can;
+            while (1) {
+                print "Cantidad: "; $can = <STDIN>; chomp($can);
+                last if es_numero_valido($can);
+                print "¡Error! Ingrese un numero entero positivo para la cantidad.\n";
+            }
+
             print "Vencimiento (YYYY-MM-DD): "; my $fec = <STDIN>; chomp($fec);
             print "Nivel Minimo: "; my $niv = <STDIN>; chomp($niv);
             
@@ -192,6 +207,15 @@ sub iniciar_sesion_usuario {
         print "\nDatos invalidos.\n";
         return undef;
     }
+}
+
+sub es_numero_valido {
+    my ($valor) = @_;
+    # Expresión regular: permite números enteros y decimales positivos
+    if ($valor =~ /^\d+(\.\d+)?$/) {
+        return 1;
+    }
+    return 0;
 }
 
 # =========================================================

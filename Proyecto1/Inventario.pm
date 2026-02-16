@@ -28,16 +28,36 @@ sub insertar_ordenado {
 
 sub cargar_csv {
     my ($ruta) = @_;
-    open(my $fh, '<', $ruta) or return;
+    open(my $fh, '<', $ruta) or do {
+        print "Error: No se pudo abrir el archivo '$ruta'\n";
+        return;
+    };
+    
     <$fh>; # Saltar encabezado
+    
     while (my $line = <$fh>) {
         chomp $line;
+        next if $line =~ /^\s*$/; # Ignora líneas vacías
+
         my @d = split(',', $line);
-        foreach (@d) { s/^\s+|\s+$//g; }
-        my $nuevo = Nodo->crear_medicamento(@d);
-        insertar_ordenado($nuevo);
+        foreach (@d) { s/^\s+|\s+$//g; } # Limpieza de espacios
+
+        # VALIDACIÓN: Verificar que la línea tenga los 8 campos requeridos
+        if (scalar(@d) == 8) {
+            # VALIDACIÓN: Precio (índice 4) y Cantidad (índice 5) deben ser números
+            # Usamos la función de validación que definimos antes
+            if (es_numero_valido($d[4]) && es_numero_valido($d[5])) {
+                my $nuevo = Nodo->crear_medicamento(@d);
+                insertar_ordenado($nuevo);
+            } else {
+                print "Aviso: Datos numericos invalidos en linea: $line\n";
+            }
+        } else {
+            print "Aviso: Linea con formato incorrecto (se esperan 8 campos): $line\n";
+        }
     }
     close($fh);
+    print "Carga masiva finalizada correctamente.\n";
 }
 
 sub buscar_medicamento {
@@ -125,4 +145,14 @@ sub visualizar_consola {
     print "=" x 65 . "\n";
 }
 
-1;
+# --- AGREGAR ESTA FUNCIÓN AL FINAL DE Inventario.pm ---
+sub es_numero_valido {
+    my ($valor) = @_;
+    # Verifica que sea un número (entero o decimal)
+    if (defined $valor && $valor =~ /^\d+(\.\d+)?$/) {
+        return 1;
+    }
+    return 0;
+}
+
+1; # Final del archivoper

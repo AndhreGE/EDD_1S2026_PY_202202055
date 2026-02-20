@@ -16,7 +16,7 @@ Esta estructura almacena el catálogo de medicamentos. Se eligió por su capacid
 * **Validación:** Se implementó una función de verificación de tipos para asegurar que campos como `precio` y `stock` sean numéricos antes de la inserción.
 * **Visualización:** Nodos con `shape=record`. El sistema cambia el `fillcolor` a **rojo** si el stock es menor al nivel mínimo, generando una alerta visual inmediata.
 
-[Image of a doubly linked list diagram with rectangular nodes and bidirectional arrows]
+
 
 ### B. Lista Circular de Listas (Proveedores)
 Estructura compuesta para la gestión de proveedores (lista circular simple) y sus entregas (sub-listas simples).
@@ -29,7 +29,7 @@ Utilizada para manejar las colas de reabastecimiento solicitadas por los usuario
 * **Conectividad:** Cada solicitud está enlazada con la anterior y la siguiente; el cierre del círculo es bidireccional.
 * **Flujo:** Funciona bajo un esquema de atención de solicitudes donde el Administrador procesa los nodos desde el frente de la cola.
 
-[Image of a circular doubly linked list data structure showing next and prev pointers closing the loop]
+
 
 ### D. Matriz Dispersa (Precios de Laboratorio)
 Estructura ortogonal que relaciona medicamentos con laboratorios fabricantes y sus respectivos precios.

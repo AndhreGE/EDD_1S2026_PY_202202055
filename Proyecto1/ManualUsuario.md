@@ -62,4 +62,3 @@ Al ejecutar el programa, verás el menú principal. El sistema cuenta con dos pe
 
 ---
 
-**¡Gracias por utilizar MedTrack, Luigi!**

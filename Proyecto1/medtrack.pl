@@ -38,7 +38,7 @@ sub iniciar_sesion_admin {
 
 sub menu_administrador {
     my $op = 0;
-    while ($op != 8) {
+    while ($op != 9) {
         print "\n============================\n";
         print "    SISTEMA EDD MEDTRACK    \n";
         print "============================\n";
@@ -50,7 +50,8 @@ sub menu_administrador {
         print "5. Procesar Solicitudes de Reabastecimiento\n";
         print "6. Visualizar Inventario Completo\n";
         print "7. Consultar precios (Matriz)\n";
-        print "8. Volver\n";
+        print "8. Consultar inventario\n";
+        print "9. Volver\n";
         print "Seleccione: ";
         $op = <STDIN>; chomp($op);
 
@@ -121,6 +122,13 @@ sub menu_administrador {
             print "Ingrese el nombre del medicamento a consultar: ";
             my $med_consulta = <STDIN>; chomp($med_consulta);
             Matriz->consultar_precios_medicamento($med_consulta);
+        }elsif ($op == 8) {
+            print "\n--- CONSULTA FILTRADA ---\n";
+            print "Ingrese nombre del Medicamento: "; my $med = <STDIN>; chomp($med);
+            print "Ingrese nombre del Laboratorio: "; my $lab = <STDIN>; chomp($lab);
+    
+            # Esta función buscará el nodo exacto en la intersección
+            Matriz->consultar_especifico($med, $lab);
         }
     }
 }

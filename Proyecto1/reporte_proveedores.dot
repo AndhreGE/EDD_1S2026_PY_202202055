@@ -2,10 +2,8 @@ digraph G {
   rankdir=TB;
   node [shape=box];
   label="Proveedores y Entregas";
-  prov0 [label="NIT: 8002126\nTelevisa", style=bold];
+  prov0 [label="NIT: 8006123\ntelgua", style=bold];
   prov0 -> prov1;
-  prov1 [label="NIT: 83800654\ndominos", style=bold];
-  prov1 -> prov2;
-  prov2 [label="NIT: 360375871\nCampero", style=bold];
-  prov2 -> prov0 [constraint=false];
+  prov1 [label="NIT: 801234457\ndominos", style=bold];
+  prov1 -> prov0 [constraint=false];
 }

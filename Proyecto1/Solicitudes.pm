@@ -42,4 +42,30 @@ sub atender_solicitud {
     $contador_solicitudes--;
 }
 
+sub procesar_reabastecimiento {
+    my $solicitud = $Solicitudes::head_solicitudes;
+    return print "No hay solicitudes pendientes.\n" if !defined $solicitud;
+
+    # 1. Buscar el medicamento en la Lista Doblemente Enlazada (Inventario)
+    my $actual = $Inventario::head;
+    my $encontrado = 0;
+    while (defined $actual) {
+        if ($actual->{nombre} eq $solicitud->{med}) {
+            # 2. Aumentar el stock
+            $actual->{cantidad} += $solicitud->{cantidad};
+            print "Reabastecimiento completado: $solicitud->{med} +$solicitud->{cantidad}\n";
+            $encontrado = 1;
+            last;
+        }
+        $actual = $actual->{next};
+    }
+
+    if ($encontrado) {
+        # 3. Eliminar la solicitud ya procesada (Atender)
+        Solicitudes->atender_solicitud();
+    } else {
+        print "Error: El medicamento solicitado no existe en el inventario.\n";
+    }
+}
+
 1;

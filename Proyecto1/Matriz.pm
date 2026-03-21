@@ -96,4 +96,55 @@ sub consultar_precios_medicamento {
     }
 }
 
+sub consultar_por_nombre_y_lab {
+    my ($class, $nombre_med, $laboratorio) = @_;
+    
+    # 1. Buscar la cabecera de la columna (Nombre del medicamento)
+    my $col = $root_columnas;
+    while (defined $col) {
+        if (lc($col->{id}) eq lc($nombre_med)) {
+            # 2. Bajar por esa columna buscando el laboratorio
+            my $actual = $col->{access};
+            while (defined $actual) {
+                if (lc($actual->{nombre_lab}) eq lc($laboratorio)) {
+                    printf("\nMedicamento: %s\nLaboratorio: %s\nPrecio: Q%.2f\nStock: %d\n",
+                        $nombre_med, $laboratorio, $actual->{precio}, $actual->{cantidad});
+                    return;
+                }
+                $actual = $actual->{down};
+            }
+        }
+        $col = $col->{next};
+    }
+    print "No se encontró el medicamento '$nombre_med' del laboratorio '$laboratorio'.\n";
+}
+
+sub consultar_especifico {
+    my ($class, $med, $lab) = @_;
+    
+    # Limpieza inmediata de los datos ingresados por el usuario
+    $med =~ s/^\s+|\s+$//g; 
+    $lab =~ s/^\s+|\s+$//g;
+
+    my $col = $root_columnas; 
+    
+    while (defined $col) {
+        # Comparamos ignorando mayúsculas/minúsculas
+        if (lc($col->{id}) eq lc($med)) {
+            my $actual = $col->{access};
+            while (defined $actual) {
+                # Comparamos el laboratorio también en minúsculas
+                if (lc($actual->{nombre_lab}) eq lc($lab)) {
+                    print "\nRegistro Encontrado:";
+                    print "\nLab: $actual->{nombre_lab} | Med: $med | Precio: Q$actual->{precio} | Stock: $actual->{cantidad}\n";
+                    return;
+                }
+                $actual = $actual->{down};
+            }
+        }
+        $col = $col->{next};
+    }
+    print "\nNo se encontro la relacion entre $med y $lab.\n";
+}
+
 1;

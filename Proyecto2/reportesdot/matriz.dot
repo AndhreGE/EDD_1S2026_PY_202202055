@@ -1,0 +1,19 @@
+digraph G {
+rankdir=TB;
+graph [pad="0.6", nodesep="0.8", ranksep="1"];
+node [shape=box, height=0.8, fontname="Arial"];
+edge [fontname="Arial"];
+
+	Raiz [label="" width=0.3 shape=point];
+	Col_Andhre [label="Andhre" group=1];
+	{ rank=same; Raiz; Col_Andhre; }
+	Raiz -> Col_Andhre [dir=both];
+
+	Fila_igss [label="igss" group=0];
+	Raiz -> Fila_igss [dir=both];
+
+	{ rank=same; Fila_igss; 	Nodo_igss_Andhre [shape=circle group=1 label="Q5\nCant:100"];
+Nodo_igss_Andhre; 	Fila_igss -> Nodo_igss_Andhre [dir=both];
+}
+	Col_Andhre -> Nodo_igss_Andhre [dir=both];
+}

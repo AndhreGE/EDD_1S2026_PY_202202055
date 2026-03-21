@@ -43,4 +43,44 @@ sub registrar_entrega {
     } while ($actual != $head_proveedores);
 }
 
+sub registrar_entrega {
+    my ($class, $nit_prov, $fecha, $factura, $codigo, $cantidad) = @_;
+    
+    my $actual = $head_proveedores;
+    return if !defined $actual;
+
+    do {
+        if ($actual->{nit} eq $nit_prov) {
+            # Crear el nuevo nodo de entrega usando tu módulo Nodo
+            my $nueva_entrega = Nodo->crear_entrega($fecha, $factura, $codigo, $cantidad);
+            
+            # Insertar al inicio de la lista simple de entregas del proveedor
+            $nueva_entrega->{next} = $actual->{lista_entregas};
+            $actual->{lista_entregas} = $nueva_entrega;
+            print "Entrega registrada para el proveedor: $actual->{nombre}\n";
+            return 1;
+        }
+        $actual = $actual->{next};
+    } while ($actual != $head_proveedores);
+    
+    print "Proveedor con NIT $nit_prov no encontrado.\n";
+    return 0;
+}
+
+sub historial_transacciones {
+    my $prov = $Proveedores::head_proveedores;
+    return print "No hay proveedores registrados.\n" if !defined $prov;
+
+    print "\n--- HISTORIAL DE ENTREGAS ---\n";
+    do {
+        my $entrega = $prov->{lista_entregas};
+        while (defined $entrega) {
+            printf("Proveedor: %-15s | Factura: %-10s | Cod: %-8s | Cant: %-5d\n",
+                $prov->{nombre}, $entrega->{factura}, $entrega->{codigo}, $entrega->{cantidad});
+            $entrega = $entrega->{next};
+        }
+        $prov = $prov->{next};
+    } while ($prov != $Proveedores::head_proveedores);
+}
+
 1;

@@ -1,8 +1,9 @@
 package Inventario;
 use strict;
 use warnings;
+use Matriz; # Importante para usar las funciones de la matriz
 
-our $head = undef; # 'our' permite que sea vista desde afuera
+our $head = undef; 
 
 sub insertar_ordenado {
     my ($nodo) = @_;
@@ -37,18 +38,30 @@ sub cargar_csv {
     
     while (my $line = <$fh>) {
         chomp $line;
-        next if $line =~ /^\s*$/; # Ignora líneas vacías
+        next if $line =~ /^\s*$/; 
 
         my @d = split(',', $line);
-        foreach (@d) { s/^\s+|\s+$//g; } # Limpieza de espacios
+        foreach (@d) { s/^\s+|\s+$//g; } 
 
-        # VALIDACIÓN: Verificar que la línea tenga los 8 campos requeridos
         if (scalar(@d) == 8) {
-            # VALIDACIÓN: Precio (índice 4) y Cantidad (índice 5) deben ser números
-            # Usamos la función de validación que definimos antes
             if (es_numero_valido($d[4]) && es_numero_valido($d[5])) {
+                # 1. Registro en Inventario (Lista Doble)
                 my $nuevo = Nodo->crear_medicamento(@d);
                 insertar_ordenado($nuevo);
+                
+                # 2. INTEGRACIÓN CON MATRIZ: Crear nodo interno
+                # d[1] = Medicamento, d[3] = Laboratorio, d[4] = Precio, d[5] = Stock
+                my $nodo_matriz = {
+                    nombre_lab  => $d[3],
+                    medicamento => $d[1],
+                    precio      => $d[4],
+                    cantidad    => $d[5],
+                    right => undef, left => undef, up => undef, down => undef
+                };
+
+                # 3. Insertar en la Matriz Dispersa
+                Matriz->insertar_valor($d[1], $d[3], $nodo_matriz);
+                
             } else {
                 print "Aviso: Datos numericos invalidos en linea: $line\n";
             }
@@ -155,4 +168,4 @@ sub es_numero_valido {
     return 0;
 }
 
-1; # Final del archivoper
+1;

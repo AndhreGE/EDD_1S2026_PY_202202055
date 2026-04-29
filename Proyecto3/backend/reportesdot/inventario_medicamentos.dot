@@ -1,0 +1,25 @@
+digraph ListaDoble {
+rankdir=LR;
+node [shape=record fontname="Arial"];
+
+Nodo0 [style=filled fillcolor="palegreen" label="{ <prev> | { Codigo: MED-001 | Nombre: Amoxicilina 500mg | Stock: 8000 | Vence: 2027-06-30 } | <next> }"];
+Nodo1 [style=filled fillcolor="palegreen" label="{ <prev> | { Codigo: MED-002 | Nombre: Ibuprofeno 400mg | Stock: 12000 | Vence: 2027-09-15 } | <next> }"];
+Nodo2 [style=filled fillcolor="palegreen" label="{ <prev> | { Codigo: MED-003 | Nombre: Metformina 850mg | Stock: 6000 | Vence: 2027-03-01 } | <next> }"];
+Nodo3 [style=filled fillcolor="palegreen" label="{ <prev> | { Codigo: MED-004 | Nombre: Omeprazol 20mg | Stock: 10000 | Vence: 2027-04-25 } | <next> }"];
+Nodo4 [style=filled fillcolor="palegreen" label="{ <prev> | { Codigo: MED-005 | Nombre: Azitromicina 500mg | Stock: 3000 | Vence: 2027-02-14 } | <next> }"];
+Nodo5 [style=filled fillcolor="palegreen" label="{ <prev> | { Codigo: MED-006 | Nombre: Paracetamol 500mg | Stock: 15000 | Vence: 2027-12-31 } | <next> }"];
+Nodo6 [style=filled fillcolor="palegreen" label="{ <prev> | { Codigo: MED-007 | Nombre: Diclofenaco 75mg Inyectable | Stock: 4000 | Vence: 2027-07-20 } | <next> }"];
+
+Nodo0:next -> Nodo1:prev;
+Nodo1:prev -> Nodo0:next;
+Nodo1:next -> Nodo2:prev;
+Nodo2:prev -> Nodo1:next;
+Nodo2:next -> Nodo3:prev;
+Nodo3:prev -> Nodo2:next;
+Nodo3:next -> Nodo4:prev;
+Nodo4:prev -> Nodo3:next;
+Nodo4:next -> Nodo5:prev;
+Nodo5:prev -> Nodo4:next;
+Nodo5:next -> Nodo6:prev;
+Nodo6:prev -> Nodo5:next;
+}

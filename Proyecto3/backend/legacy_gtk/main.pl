@@ -1,10 +1,15 @@
 use strict;
 use warnings;
+use utf8;
+
+binmode(STDOUT, ':encoding(UTF-8)');
+binmode(STDERR, ':encoding(UTF-8)');
 
 use FindBin;
 use lib "$FindBin::Bin";
-use lib "estructuras/bst";
-use lib "modelos";
+use lib "$FindBin::Bin/../dominio";
+
+use Gtk3 -init;
 
 use estructuras::listaDoble::ListaDoble;
 use estructuras::listaDobleCircular::ListaDobleCircular;

@@ -1,0 +1,22 @@
+digraph MatrizResumen {
+    rankdir=LR;
+    node [shape=box, style=filled, fillcolor=lightgray];
+    prov_12345678_1 [label="Proveedor\n12345678-1", fillcolor=lightblue];
+    fab_BuenaVidaGT [label="Fabricante\nBuenaVidaGT", fillcolor=lightgoldenrod1];
+    prov_12345678_1 -> fab_BuenaVidaGT [label="MED: 0\nEQU: 20\nSUM: 0\nTOTAL: 20"];
+    fab_FarmacentroGT [label="Fabricante\nFarmacentroGT", fillcolor=lightgoldenrod1];
+    prov_12345678_1 -> fab_FarmacentroGT [label="MED: 3000\nEQU: 0\nSUM: 0\nTOTAL: 3000"];
+    fab_GenericLab [label="Fabricante\nGenericLab", fillcolor=lightgoldenrod1];
+    prov_12345678_1 -> fab_GenericLab [label="MED: 16000\nEQU: 0\nSUM: 0\nTOTAL: 16000"];
+    fab_LabFarma [label="Fabricante\nLabFarma", fillcolor=lightgoldenrod1];
+    prov_12345678_1 -> fab_LabFarma [label="MED: 20000\nEQU: 0\nSUM: 0\nTOTAL: 20000"];
+    fab_MediSupplyGT [label="Fabricante\nMediSupplyGT", fillcolor=lightgoldenrod1];
+    prov_12345678_1 -> fab_MediSupplyGT [label="MED: 0\nEQU: 0\nSUM: 100000\nTOTAL: 100000"];
+    fab_MediTechGT [label="Fabricante\nMediTechGT", fillcolor=lightgoldenrod1];
+    prov_12345678_1 -> fab_MediTechGT [label="MED: 0\nEQU: 15\nSUM: 0\nTOTAL: 15"];
+    prov_23456789_2 [label="Proveedor\n23456789-2", fillcolor=lightblue];
+    prov_23456789_2 -> fab_BuenaVidaGT [label="MED: 0\nEQU: 20\nSUM: 0\nTOTAL: 20"];
+    prov_23456789_2 -> fab_FarmacentroGT [label="MED: 4000\nEQU: 0\nSUM: 0\nTOTAL: 4000"];
+    prov_23456789_2 -> fab_GenericLab [label="MED: 15000\nEQU: 0\nSUM: 0\nTOTAL: 15000"];
+    prov_23456789_2 -> fab_MediSupplyGT [label="MED: 0\nEQU: 0\nSUM: 25000\nTOTAL: 25000"];
+}

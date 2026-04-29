@@ -1,0 +1,12 @@
+digraph ArbolB {
+    rankdir=TB;
+    node [shape=record, style=filled, fillcolor=lightcyan2];
+    edge [color=gray30];
+    nodo_0 [label="{SUM-150\nAlgodon\nCant: 70|SUM-400\nGasas\nCant: 120}"];
+    nodo_1 [label="{SUM-100\nGuantes\nCant: 200}"];
+    nodo_0 -> nodo_1;
+    nodo_2 [label="{SUM-250\nVendas\nCant: 80|SUM-350\nAlcohol\nCant: 60}"];
+    nodo_0 -> nodo_2;
+    nodo_3 [label="{SUM-450\nCateter\nCant: 40}"];
+    nodo_0 -> nodo_3;
+}

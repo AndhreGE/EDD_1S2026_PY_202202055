@@ -1,0 +1,32 @@
+digraph AVL {
+    rankdir=TB;
+    node [shape=record, style=filled, fillcolor=lightgoldenrod1];
+    edge [color=gray30];
+    nodo_0 [label="{Colegio: COL-30002|Nombre: Lic. Carmen Alejandra Ponce López|Depto: DEP-MED|Altura: 4|Balance: 0}"];
+    nodo_1 [label="{Colegio: COL-20001|Nombre: Dr. Alejandro Javier Morales Ríos|Depto: DEP-CIR|Altura: 3|Balance: 0}"];
+    nodo_2 [label="{Colegio: COL-10002|Nombre: Dra. Sofía Alejandra Ramírez Cruz|Depto: DEP-MED|Altura: 2|Balance: 0}"];
+    nodo_3 [label="{Colegio: COL-10001|Nombre: Dr. Carlos Andrés Méndez Torres|Depto: DEP-MED|Altura: 1|Balance: 0}"];
+    nodo_2 -> nodo_3;
+    nodo_4 [label="{Colegio: COL-10003|Nombre: Dr. Roberto Emilio Castillo Vega|Depto: DEP-MED|Altura: 1|Balance: 0}"];
+    nodo_2 -> nodo_4;
+    nodo_1 -> nodo_2;
+    nodo_5 [label="{Colegio: COL-20003|Nombre: Dr. Fernando José Alvarado Sánchez|Depto: DEP-MED|Altura: 2|Balance: 0}"];
+    nodo_6 [label="{Colegio: COL-20002|Nombre: Dra. Valentina Beatriz Herrera Juárez|Depto: DEP-CIR|Altura: 1|Balance: 0}"];
+    nodo_5 -> nodo_6;
+    nodo_7 [label="{Colegio: COL-30001|Nombre: Lic. María Elena González Ruiz|Depto: DEP-FAR|Altura: 1|Balance: 0}"];
+    nodo_5 -> nodo_7;
+    nodo_1 -> nodo_5;
+    nodo_0 -> nodo_1;
+    nodo_8 [label="{Colegio: COL-40002|Nombre: Tec. Sandra Patricia Gómez Xicol|Depto: DEP-LAB|Altura: 3|Balance: 0}"];
+    nodo_9 [label="{Colegio: COL-30004|Nombre: Lic. Jorge Luis Monroy Castro|Depto: DEP-FAR|Altura: 2|Balance: 0}"];
+    nodo_10 [label="{Colegio: COL-30003|Nombre: Lic. Rosa Miriam Ajú Pérez|Depto: DEP-CIR|Altura: 1|Balance: 0}"];
+    nodo_9 -> nodo_10;
+    nodo_11 [label="{Colegio: COL-40001|Nombre: Tec. Luis Fernando Morales Salazar|Depto: DEP-LAB|Altura: 1|Balance: 0}"];
+    nodo_9 -> nodo_11;
+    nodo_8 -> nodo_9;
+    nodo_12 [label="{Colegio: COL-50001|Nombre: Lic. Pedro Antonio Herrera Caal|Depto: DEP-ADM|Altura: 2|Balance: -1}"];
+    nodo_13 [label="{Colegio: COL-50002|Nombre: Lic. Gabriela Fernanda Castillo Ajú|Depto: DEP-ADM|Altura: 1|Balance: 0}"];
+    nodo_12 -> nodo_13;
+    nodo_8 -> nodo_12;
+    nodo_0 -> nodo_8;
+}

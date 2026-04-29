@@ -1,0 +1,124 @@
+{
+  "usuarios": [
+    {
+      "numero_colegio": "COL-10001",
+      "nombre_completo": "Dr. Carlos Andrés Méndez Torres",
+      "tipo_usuario": "TIPO-01",
+      "departamento": "DEP-MED",
+      "especialidad": "Medicina General",
+      "contrasena": "medgen2026A"
+    },
+    {
+      "numero_colegio": "COL-10002",
+      "nombre_completo": "Dra. Sofía Alejandra Ramírez Cruz",
+      "tipo_usuario": "TIPO-01",
+      "departamento": "DEP-MED",
+      "especialidad": "Medicina Interna",
+      "contrasena": "medgen2026B"
+    },
+    {
+      "numero_colegio": "COL-10003",
+      "nombre_completo": "Dr. Roberto Emilio Castillo Vega",
+      "tipo_usuario": "TIPO-01",
+      "departamento": "DEP-MED",
+      "especialidad": "Medicina Familiar",
+      "contrasena": "medfam2026"
+    },
+    {
+      "numero_colegio": "COL-20001",
+      "nombre_completo": "Dr. Alejandro Javier Morales Ríos",
+      "tipo_usuario": "TIPO-02",
+      "departamento": "DEP-CIR",
+      "especialidad": "Cirugía General",
+      "contrasena": "cirgen2026A"
+    },
+    {
+      "numero_colegio": "COL-20002",
+      "nombre_completo": "Dra. Valentina Beatriz Herrera Juárez",
+      "tipo_usuario": "TIPO-02",
+      "departamento": "DEP-CIR",
+      "especialidad": "Cirugía Cardiovascular",
+      "contrasena": "circar2026"
+    },
+    {
+      "numero_colegio": "COL-20003",
+      "nombre_completo": "Dr. Fernando José Alvarado Sánchez",
+      "tipo_usuario": "TIPO-02",
+      "departamento": "DEP-MED",
+      "especialidad": "Cardiología",
+      "contrasena": "cardio2026"
+    },
+    {
+      "numero_colegio": "COL-30001",
+      "nombre_completo": "Lic. María Elena González Ruiz",
+      "tipo_usuario": "TIPO-03",
+      "departamento": "DEP-FAR",
+      "especialidad": null,
+      "contrasena": "enffar2026A"
+    },
+    {
+      "numero_colegio": "COL-30002",
+      "nombre_completo": "Lic. Carmen Alejandra Ponce López",
+      "tipo_usuario": "TIPO-03",
+      "departamento": "DEP-MED",
+      "especialidad": null,
+      "contrasena": "enfmed2026A"
+    },
+    {
+      "numero_colegio": "COL-30003",
+      "nombre_completo": "Lic. Rosa Miriam Ajú Pérez",
+      "tipo_usuario": "TIPO-03",
+      "departamento": "DEP-CIR",
+      "especialidad": null,
+      "contrasena": "enfcir2026A"
+    },
+    {
+      "numero_colegio": "COL-30004",
+      "nombre_completo": "Lic. Jorge Luis Monroy Castro",
+      "tipo_usuario": "TIPO-03",
+      "departamento": "DEP-FAR",
+      "especialidad": null,
+      "contrasena": "enffar2026B"
+    },
+    {
+      "numero_colegio": "COL-40001",
+      "nombre_completo": "Tec. Luis Fernando Morales Salazar",
+      "tipo_usuario": "TIPO-04",
+      "departamento": "DEP-LAB",
+      "especialidad": "Hematología Clínica",
+      "contrasena": "labhem2026"
+    },
+    {
+      "numero_colegio": "COL-40002",
+      "nombre_completo": "Tec. Sandra Patricia Gómez Xicol",
+      "tipo_usuario": "TIPO-04",
+      "departamento": "DEP-LAB",
+      "especialidad": "Microbiología",
+      "contrasena": "labmic2026"
+    },
+    {
+      "numero_colegio": "COL-50001",
+      "nombre_completo": "Lic. Pedro Antonio Herrera Caal",
+      "tipo_usuario": "TIPO-05",
+      "departamento": "DEP-ADM",
+      "especialidad": "Administración Hospitalaria",
+      "contrasena": "adm2026A"
+    },
+    {
+      "numero_colegio": "COL-50002",
+      "nombre_completo": "Lic. Gabriela Fernanda Castillo Ajú",
+      "tipo_usuario": "TIPO-05",
+      "departamento": "DEP-ADM",
+      "especialidad": "Gestión de Salud",
+      "contrasena": "0"
+    },
+    {
+      "numero_colegio": "COL-99001",
+      "nombre_completo": "Dr. Registro Inválido Test",
+      "tipo_usuario": "TIPO-99",
+      "departamento": "DEP-XYZ",
+      "especialidad": null,
+      "contrasena": ""
+    }
+  ]
+}

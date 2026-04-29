@@ -1,0 +1,19 @@
+digraph TablaHashPersonal {
+    graph [charset="UTF-8", rankdir=LR];
+    node [fontname="DejaVu Sans"];
+    edge [fontname="DejaVu Sans"];
+    tabla [shape=record, style=filled, fillcolor="lightcyan", label="{Tabla Hash Personal|<b0> TIPO-01|<b1> TIPO-02|<b2> TIPO-03|<b3> TIPO-04|<b4> TIPO-05}"];
+    bucket_0_0 [shape=box, style=filled, fillcolor="lightyellow", label="COL-101\nDra. Ana Morales\nDEP-MED"];
+    tabla:b0 -> bucket_0_0;
+    bucket_0_1 [shape=box, style=filled, fillcolor="lightyellow", label="COL-102\nDr. Diego Castillo\nDEP-MED"];
+    bucket_0_0 -> bucket_0_1;
+    bucket_1_0 [shape=box, style=filled, fillcolor="lightyellow", label="COL-201\nDr. Juan Perez\nDEP-CIR"];
+    tabla:b1 -> bucket_1_0;
+    bucket_2 [shape=box, style=filled, fillcolor="gray95", label="TIPO-03
+(vacio)"];
+    tabla:b2 -> bucket_2;
+    bucket_3_0 [shape=box, style=filled, fillcolor="lightyellow", label="COL-401\nDr. Carlos Ramirez\nDEP-FAR"];
+    tabla:b3 -> bucket_3_0;
+    bucket_4_0 [shape=box, style=filled, fillcolor="lightyellow", label="COL-501\nLic. Elena Gomez\nDEP-ADM"];
+    tabla:b4 -> bucket_4_0;
+}

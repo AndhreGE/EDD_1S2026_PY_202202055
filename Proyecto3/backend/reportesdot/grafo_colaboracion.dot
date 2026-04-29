@@ -1,0 +1,18 @@
+graph GrafoColaboracion {
+    layout=neato;
+    overlap=false;
+    splines=true;
+    node [shape=ellipse, style=filled, fontname="Helvetica"];
+    edge [color="gray40"];
+    n_COL_100 [label="COL-100\nDra. Ana Morales\nDEP-MED\nTIPO-01", fillcolor="lightblue"];
+    n_COL_200 [label="COL-200\nDr. Juan Perez\nDEP-CIR\nTIPO-02", fillcolor="lightcoral"];
+    n_COL_300 [label="COL-300\nDr. Carlos Ramirez\nDEP-FAR\nTIPO-04", fillcolor="lightgoldenrod"];
+    n_COL_400 [label="COL-400\nLic. Sofia Herrera\nDEP-LAB\nTIPO-03", fillcolor="lightgreen"];
+    n_COL_500 [label="COL-500\nDr. Diego Castillo\nDEP-MED\nTIPO-01", fillcolor="lightblue"];
+    n_COL_100 -- n_COL_200;
+    n_COL_100 -- n_COL_300;
+    n_COL_100 -- n_COL_500;
+    n_COL_200 -- n_COL_300;
+    n_COL_200 -- n_COL_400;
+    n_COL_300 -- n_COL_400;
+}

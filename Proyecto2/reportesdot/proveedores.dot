@@ -1,0 +1,7 @@
+digraph Proveedores {
+    rankdir=LR;
+    node [shape=box, style=filled, fillcolor=lightsteelblue1];
+    nodo_0 [label="NIT: 12345678-1 \| Empresa: FarmaGT Distribuciones \| Contacto: Carga JSON \| Telefono: 2201-1100 \| Direccion: Zona 4, Ciudad de Guatemala"];
+    nodo_0 -> nodo_1;
+    nodo_1 [label="NIT: 23456789-2 \| Empresa: MediSupply Central S.A. \| Contacto: Carga JSON \| Telefono: 2334-5566 \| Direccion: Zona 12, Ciudad de Guatemala"];
+}

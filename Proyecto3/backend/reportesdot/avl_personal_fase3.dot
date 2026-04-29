@@ -1,0 +1,12 @@
+digraph AVL {
+    rankdir=TB;
+    node [shape=record, style=filled, fillcolor=lightgoldenrod1];
+    edge [color=gray30];
+    nodo_0 [label="{Colegio: COL-1002|Nombre: Dr. Diego Castillo|Depto: DEP-MED|Altura: 3|Balance: -1}"];
+    nodo_1 [label="{Colegio: COL-1001|Nombre: Dra. Ana Morales|Depto: DEP-MED|Altura: 1|Balance: 0}"];
+    nodo_0 -> nodo_1;
+    nodo_2 [label="{Colegio: COL-4001|Nombre: Dr. Carlos Ramirez|Depto: DEP-FAR|Altura: 2|Balance: 1}"];
+    nodo_3 [label="{Colegio: COL-2001|Nombre: Dr. Juan Perez|Depto: DEP-CIR|Altura: 1|Balance: 0}"];
+    nodo_2 -> nodo_3;
+    nodo_0 -> nodo_2;
+}

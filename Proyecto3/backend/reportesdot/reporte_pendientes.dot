@@ -1,0 +1,8 @@
+digraph ListaCircularDoble {
+rankdir=LR;
+node [shape=circle fontname="Arial"];
+
+
+
+Total [shape=box label="Solicitudes pendientes: 0"];
+}

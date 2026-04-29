@@ -1,0 +1,13 @@
+digraph ListaAdyacencia {
+    rankdir=TB;
+    node [shape=record, style=filled, fillcolor="lightyellow", fontname="Helvetica"];
+    nodo_0 [label="{ COL-100 | COL-200, COL-300, COL-500 }"];
+    nodo_1 [label="{ COL-200 | COL-100, COL-300, COL-400 }"];
+    nodo_0 -> nodo_1 [style=invis];
+    nodo_2 [label="{ COL-300 | COL-100, COL-200, COL-400 }"];
+    nodo_1 -> nodo_2 [style=invis];
+    nodo_3 [label="{ COL-400 | COL-200, COL-300 }"];
+    nodo_2 -> nodo_3 [style=invis];
+    nodo_4 [label="{ COL-500 | COL-100 }"];
+    nodo_3 -> nodo_4 [style=invis];
+}

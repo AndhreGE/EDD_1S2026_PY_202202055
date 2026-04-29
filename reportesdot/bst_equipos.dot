@@ -1,0 +1,10 @@
+digraph BST {
+    rankdir=TB;
+    node [shape=record, style=filled, fillcolor=lightblue];
+    edge [color=gray30];
+    nodo_0 [label="{Codigo: EQU-005|Nombre: Bomba de infusion|Cantidad: 8}"];
+    nodo_1 [label="{Codigo: EQU-001|Nombre: Monitor|Cantidad: 10}"];
+    nodo_2 [label="{Codigo: EQU-002|Nombre: Electrocardiografo|Cantidad: 3}"];
+    nodo_1 -> nodo_2;
+    nodo_0 -> nodo_1;
+}

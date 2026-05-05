@@ -51,5 +51,36 @@ export const usuarioApi = {
       method: 'POST',
       body: { texto }
     })
+  },
+
+  getInsumosSolicitables() {
+    return apiRequest('/api/usuario/insumos-solicitables')
+  },
+
+  crearSolicitudReabastecimiento(payload) {
+    return apiRequest('/api/usuario/reabastecimiento', {
+      method: 'POST',
+      body: payload
+    })
+  },
+
+  getMisSolicitudesReabastecimiento() {
+    return apiRequest('/api/usuario/reabastecimiento/mis-solicitudes')
+  },
+
+  getEstadoLZW() {
+    return apiRequest('/api/usuario/lzw/estado')
+  },
+
+  guardarLZW() {
+    return apiRequest('/api/usuario/lzw/guardar', {
+      method: 'POST'
+    })
+  },
+
+  recargarLZW() {
+    return apiRequest('/api/usuario/lzw/recargar', {
+      method: 'POST'
+    })
   }
 }

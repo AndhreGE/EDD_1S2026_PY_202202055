@@ -3,6 +3,8 @@ package EDDMedTrack::Routes;
 use strict;
 use warnings;
 use utf8;
+use File::Spec;
+use File::Temp qw(tempfile);
 
 sub register {
     my ($class, $app, $container) = @_;
@@ -11,6 +13,17 @@ sub register {
     die "Se requiere un AppContainer" if !defined $container;
 
     my $r = $app->routes;
+
+    my $guardar_upload_temp = sub {
+        my ($upload, $suffix) = @_;
+
+        my ($fh, $ruta) = tempfile(SUFFIX => ($suffix || '.json'), UNLINK => 1);
+        binmode($fh, ':raw');
+        print {$fh} $upload->asset->slurp;
+        close($fh);
+
+        return $ruta;
+    };
 
     # =====================================================
     # Ruta simple de prueba
@@ -119,9 +132,9 @@ sub register {
             if (!$rol) {
                 return $c->render(
                     json => {
-                        ok            => 1,
-                        autenticado   => 0,
-                        usuario       => undef,
+                        ok          => 1,
+                        autenticado => 0,
+                        usuario     => undef,
                     }
                 );
             }
@@ -146,7 +159,6 @@ sub register {
         cb => sub {
             my $c = shift;
 
-            # Si es usuario normal, intenta guardar historial de chat al cerrar sesión
             my $rol = $c->session('rol');
             my $numero_colegio = $c->session('numero_colegio');
 
@@ -289,9 +301,9 @@ sub register {
 
             my $numero = $c->param('numero_colegio') // '';
             my $gestor = $container->getGestorUsuarios();
-            my $usuario = $gestor->buscarUsuario($numero);
+            my $usuario_obj = $gestor->buscarUsuario($numero);
 
-            if (!$usuario) {
+            if (!$usuario_obj) {
                 return $c->render(
                     status => 404,
                     json   => {
@@ -304,8 +316,29 @@ sub register {
             $c->render(
                 json => {
                     ok      => 1,
-                    usuario => _serializar_usuario($usuario),
+                    usuario => _serializar_usuario($usuario_obj),
                 }
+            );
+        }
+    );
+
+    $admin->post('/usuarios/manual')->to(
+        cb => sub {
+            my $c = shift;
+            my $body = $c->req->json || {};
+
+            my $res = $container->registrarUsuarioManual(
+                numero_colegio  => $body->{numero_colegio},
+                nombre_completo => $body->{nombre_completo},
+                tipo_usuario    => $body->{tipo_usuario},
+                departamento    => $body->{departamento},
+                especialidad    => $body->{especialidad},
+                clave           => $body->{clave},
+            );
+
+            $c->render(
+                status => $res->{ok} ? 200 : 400,
+                json   => $res,
             );
         }
     );
@@ -337,6 +370,63 @@ sub register {
                 json => {
                     ok      => 1,
                     resumen => $resumen,
+                }
+            );
+        }
+    );
+
+    $admin->get('/colaboracion/solicitudes-pendientes')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $lista = $container->listarSolicitudesColaboracionPendientesGlobales();
+
+            $c->render(
+                json => {
+                    ok          => 1,
+                    solicitudes => $lista,
+                }
+            );
+        }
+    );
+
+    $admin->post('/colaboracion/solicitudes/aprobar')->to(
+        cb => sub {
+            my $c = shift;
+            my $body = $c->req->json || {};
+
+            my ($ok, $msg, $lista) = $container->aprobarSolicitudColaboracionComoAdmin(
+                solicitante => $body->{solicitante} // '',
+                receptor    => $body->{receptor} // '',
+            );
+
+            $c->render(
+                status => $ok ? 200 : 400,
+                json   => {
+                    ok          => $ok ? 1 : 0,
+                    mensaje     => $msg,
+                    solicitudes => $lista || [],
+                }
+            );
+        }
+    );
+
+    $admin->post('/colaboracion/solicitudes/rechazar')->to(
+        cb => sub {
+            my $c = shift;
+            my $body = $c->req->json || {};
+
+            my ($ok, $msg, $lista) = $container->rechazarSolicitudColaboracionComoAdmin(
+                solicitante => $body->{solicitante} // '',
+                receptor    => $body->{receptor} // '',
+            );
+
+            $c->render(
+                status => $ok ? 200 : 400,
+                json   => {
+                    ok          => $ok ? 1 : 0,
+                    mensaje     => $msg,
+                    solicitudes => $lista || [],
                 }
             );
         }
@@ -404,6 +494,295 @@ sub register {
                 json   => {
                     ok      => $ok ? 1 : 0,
                     mensaje => $msg,
+                }
+            );
+        }
+    );
+
+    # ---------------------------------------------
+    # Cargas automáticas desde backend/cargas
+    # ---------------------------------------------
+    $admin->post('/cargas/usuarios')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $res = $container->cargarUsuariosDesdeJSON();
+            my $status = $res->{ok} ? 200 : 400;
+
+            $c->render(
+                status => $status,
+                json   => $res
+            );
+        }
+    );
+
+    $admin->post('/cargas/inventario')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $res = $container->cargarInventarioDesdeJSON();
+            my $status = $res->{ok} ? 200 : 400;
+
+            $c->render(
+                status => $status,
+                json   => $res
+            );
+        }
+    );
+
+    $admin->post('/cargas/colaboraciones')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $res = $container->cargarColaboracionesDesdeJSON();
+            my $status = $res->{ok} ? 200 : 400;
+
+            $c->render(
+                status => $status,
+                json   => $res
+            );
+        }
+    );
+
+    # ---------------------------------------------
+    # Cargas manuales por upload
+    # ---------------------------------------------
+    $admin->post('/cargas/usuarios/upload')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $upload = $c->req->upload('archivo');
+            return $c->render(
+                status => 400,
+                json   => { ok => 0, mensaje => 'Debe seleccionar un archivo JSON de usuarios' }
+            ) if !$upload;
+
+            my $ruta_temp = $guardar_upload_temp->($upload, '.json');
+            my $res = $container->cargarUsuariosDesdeJSON(
+                archivo         => $ruta_temp,
+                nombre_original => $upload->filename,
+                forzar          => 1,
+            );
+
+            $c->render(
+                status => $res->{ok} ? 200 : 400,
+                json   => $res,
+            );
+        }
+    );
+
+    $admin->post('/cargas/inventario/upload')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $upload = $c->req->upload('archivo');
+            return $c->render(
+                status => 400,
+                json   => { ok => 0, mensaje => 'Debe seleccionar un archivo JSON de inventario' }
+            ) if !$upload;
+
+            my $ruta_temp = $guardar_upload_temp->($upload, '.json');
+            my $res = $container->cargarInventarioDesdeJSON(
+                archivo         => $ruta_temp,
+                nombre_original => $upload->filename,
+            );
+
+            $c->render(
+                status => $res->{ok} ? 200 : 400,
+                json   => $res,
+            );
+        }
+    );
+
+    $admin->post('/cargas/colaboraciones/upload')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $upload = $c->req->upload('archivo');
+            return $c->render(
+                status => 400,
+                json   => { ok => 0, mensaje => 'Debe seleccionar un archivo JSON de colaboraciones' }
+            ) if !$upload;
+
+            my $ruta_temp = $guardar_upload_temp->($upload, '.json');
+            my $res = $container->cargarColaboracionesDesdeJSON(
+                archivo         => $ruta_temp,
+                nombre_original => $upload->filename,
+            );
+
+            $c->render(
+                status => $res->{ok} ? 200 : 400,
+                json   => $res,
+            );
+        }
+    );
+
+    # ---------------------------------------------
+    # Reportes
+    # ---------------------------------------------
+    $admin->get('/reportes/grafo')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $res = $container->generarReporteGrafo();
+            my $status = $res->{ok} ? 200 : 400;
+
+            $res->{image_url} = "/api/admin/reportes/archivo/$res->{filename}?ts=" . time
+                if $res->{ok} && $res->{filename};
+
+            $c->render(
+                status => $status,
+                json   => $res
+            );
+        }
+    );
+
+    $admin->get('/reportes/lista-adyacencia')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $res = $container->generarReporteListaAdyacencia();
+            my $status = $res->{ok} ? 200 : 400;
+
+            $res->{image_url} = "/api/admin/reportes/archivo/$res->{filename}?ts=" . time
+                if $res->{ok} && $res->{filename};
+
+            $c->render(
+                status => $status,
+                json   => $res
+            );
+        }
+    );
+
+    $admin->get('/reportes/hash')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $res = $container->generarReporteTablaHash();
+            my $status = $res->{ok} ? 200 : 400;
+
+            $res->{image_url} = "/api/admin/reportes/archivo/$res->{filename}?ts=" . time
+                if $res->{ok} && $res->{filename};
+
+            $c->render(
+                status => $status,
+                json   => $res
+            );
+        }
+    );
+
+    $admin->get('/reportes/archivo/*filename')->to(
+        format => undef,
+        cb => sub {
+            my $c = shift;
+
+            my $filename = $c->stash('filename') // '';
+            if ($filename eq '' || $filename =~ m![\\/]!) {
+                return $c->render(
+                    status => 400,
+                    text   => 'Nombre de archivo inválido'
+                );
+            }
+
+            my $ruta = File::Spec->catfile($container->getReportesDir(), $filename);
+
+            return $c->render(
+                status => 404,
+                text   => "Reporte no encontrado: $filename"
+            ) if !-e $ruta;
+
+            return $c->reply->file($ruta);
+        }
+    );
+
+    # ---------------------------------------------
+    # Reabastecimiento (admin)
+    # ---------------------------------------------
+    $admin->get('/reabastecimiento')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $lista = $container->listarSolicitudesReabastecimiento();
+
+            $c->render(
+                json => {
+                    ok          => 1,
+                    solicitudes => $lista,
+                }
+            );
+        }
+    );
+
+    $admin->post('/reabastecimiento/:id/aprobar')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $id = $c->param('id') // '';
+            my $body = $c->req->json || {};
+
+            my ($ok, $msg, $solicitud) = $container->cambiarEstadoSolicitudReabastecimiento(
+                id                => $id,
+                estado            => 'APROBADA',
+                admin_actor       => 'ADMIN',
+                observacion_admin => $body->{observacion} // '',
+            );
+
+            $c->render(
+                status => $ok ? 200 : 400,
+                json   => {
+                    ok        => $ok ? 1 : 0,
+                    mensaje   => $msg,
+                    solicitud => $solicitud,
+                }
+            );
+        }
+    );
+
+    $admin->post('/reabastecimiento/:id/rechazar')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $id = $c->param('id') // '';
+            my $body = $c->req->json || {};
+
+            my ($ok, $msg, $solicitud) = $container->cambiarEstadoSolicitudReabastecimiento(
+                id                => $id,
+                estado            => 'RECHAZADA',
+                admin_actor       => 'ADMIN',
+                observacion_admin => $body->{observacion} // '',
+            );
+
+            $c->render(
+                status => $ok ? 200 : 400,
+                json   => {
+                    ok        => $ok ? 1 : 0,
+                    mensaje   => $msg,
+                    solicitud => $solicitud,
+                }
+            );
+        }
+    );
+
+    $admin->post('/reabastecimiento/:id/atender')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $id = $c->param('id') // '';
+            my $body = $c->req->json || {};
+
+            my ($ok, $msg, $solicitud) = $container->cambiarEstadoSolicitudReabastecimiento(
+                id                => $id,
+                estado            => 'ATENDIDA',
+                admin_actor       => 'ADMIN',
+                observacion_admin => $body->{observacion} // '',
+            );
+
+            $c->render(
+                status => $ok ? 200 : 400,
+                json   => {
+                    ok        => $ok ? 1 : 0,
+                    mensaje   => $msg,
+                    solicitud => $solicitud,
                 }
             );
         }
@@ -669,6 +1048,107 @@ sub register {
             );
         }
     );
+
+    $usuario->get('/insumos-solicitables')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $numero = $c->session('numero_colegio');
+            my $lista = $container->obtenerSuministrosSolicitables($numero);
+
+            $c->render(
+                json => {
+                    ok      => 1,
+                    insumos => $lista,
+                }
+            );
+        }
+    );
+
+    $usuario->post('/reabastecimiento')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $numero = $c->session('numero_colegio');
+            my $body = $c->req->json || {};
+
+            my ($ok, $msg, $solicitud) = $container->crearSolicitudReabastecimiento(
+                numero_colegio => $numero,
+                codigo         => $body->{codigo} // '',
+                cantidad       => $body->{cantidad} // 0,
+                observacion    => $body->{observacion} // '',
+            );
+
+            my $status = $ok ? 200 : 400;
+
+            $c->render(
+                status => $status,
+                json   => {
+                    ok        => $ok ? 1 : 0,
+                    mensaje   => $msg,
+                    solicitud => $solicitud,
+                }
+            );
+        }
+    );
+
+    $usuario->get('/reabastecimiento/mis-solicitudes')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $numero = $c->session('numero_colegio');
+            my $lista = $container->listarSolicitudesReabastecimientoUsuario($numero);
+
+            $c->render(
+                json => {
+                    ok          => 1,
+                    solicitudes => $lista,
+                }
+            );
+        }
+    );
+
+    $usuario->get('/lzw/estado')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $numero = $c->session('numero_colegio');
+            my $res = $container->obtenerEstadoLZWUsuario($numero);
+
+            $c->render(
+                status => $res->{ok} ? 200 : 400,
+                json   => $res,
+            );
+        }
+    );
+
+    $usuario->post('/lzw/guardar')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $numero = $c->session('numero_colegio');
+            my $res = $container->guardarHistorialLZWUsuario($numero);
+
+            $c->render(
+                status => $res->{ok} ? 200 : 400,
+                json   => $res,
+            );
+        }
+    );
+
+    $usuario->post('/lzw/recargar')->to(
+        cb => sub {
+            my $c = shift;
+
+            my $numero = $c->session('numero_colegio');
+            my $res = $container->recargarHistorialLZWUsuario($numero);
+
+            $c->render(
+                status => $res->{ok} ? 200 : 400,
+                json   => $res,
+            );
+        }
+    );
 }
 
 # =========================================================
@@ -692,7 +1172,6 @@ sub _serializar_usuario {
 
     return undef if !defined $u;
 
-    # Si ya viene como hash
     if (ref($u) eq 'HASH') {
         return {
             numero_colegio  => _obtener_campo($u, 'numero_colegio'),
@@ -722,7 +1201,7 @@ sub _obtener_campo {
     }
 
     my %getters = (
-        numero_colegio  => [qw(getNumeroColegio numero_colegio getClave clave)],
+        numero_colegio  => [qw(getNumeroColegio numero_colegio getCodigo codigo)],
         nombre_completo => [qw(getNombreCompleto nombre_completo)],
         tipo_usuario    => [qw(getTipoUsuario tipo_usuario)],
         departamento    => [qw(getDepartamento departamento)],
@@ -730,7 +1209,7 @@ sub _obtener_campo {
     );
 
     foreach my $getter (@{ $getters{$campo} || [] }) {
-        if ($obj->can($getter)) {
+        if (ref($obj) && $obj->can($getter)) {
             my $valor = eval { $obj->$getter() };
             return $valor if defined $valor;
         }

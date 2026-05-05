@@ -1,0 +1,9 @@
+{
+  "colaboraciones": [
+    { "usuario1": "COL-10001", "usuario2": "COL-10002" },
+    { "usuario1": "COL-10001", "usuario2": "COL-10003" },
+    { "usuario1": "COL-10002", "usuario2": "COL-20001" },
+    { "usuario1": "COL-10003", "usuario2": "COL-20001" },
+    { "usuario1": "COL-10002", "usuario2": "COL-20002" }
+  ]
+}

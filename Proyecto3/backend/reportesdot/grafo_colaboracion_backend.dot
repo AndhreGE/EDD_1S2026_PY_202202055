@@ -1,0 +1,26 @@
+graph GrafoColaboracion {
+    layout=neato;
+    overlap=false;
+    splines=true;
+    node [shape=ellipse, style=filled, fontname="Helvetica"];
+    edge [color="gray40"];
+    n_COL_10001 [label="COL-10001\nDr. Carlos Andrés Méndez Torres\nDEP-MED\nTIPO-01", fillcolor="lightblue"];
+    n_COL_10002 [label="COL-10002\nDra. Sofía Alejandra Ramírez Cruz\nDEP-MED\nTIPO-01", fillcolor="lightblue"];
+    n_COL_10003 [label="COL-10003\nDr. Roberto Emilio Castillo Vega\nDEP-MED\nTIPO-01", fillcolor="lightblue"];
+    n_COL_20001 [label="COL-20001\nDr. Alejandro Javier Morales Ríos\nDEP-CIR\nTIPO-02", fillcolor="lightcoral"];
+    n_COL_20002 [label="COL-20002\nDra. Valentina Beatriz Herrera Juárez\nDEP-CIR\nTIPO-02", fillcolor="lightcoral"];
+    n_COL_20003 [label="COL-20003\nDr. Fernando José Alvarado Sánchez\nDEP-MED\nTIPO-02", fillcolor="lightblue"];
+    n_COL_30001 [label="COL-30001\nLic. María Elena González Ruiz\nDEP-FAR\nTIPO-03", fillcolor="lightgoldenrod"];
+    n_COL_30002 [label="COL-30002\nLic. Carmen Alejandra Ponce López\nDEP-MED\nTIPO-03", fillcolor="lightblue"];
+    n_COL_30003 [label="COL-30003\nLic. Rosa Miriam Ajú Pérez\nDEP-CIR\nTIPO-03", fillcolor="lightcoral"];
+    n_COL_30004 [label="COL-30004\nLic. Jorge Luis Monroy Castro\nDEP-FAR\nTIPO-03", fillcolor="lightgoldenrod"];
+    n_COL_40001 [label="COL-40001\nTec. Luis Fernando Morales Salazar\nDEP-LAB\nTIPO-04", fillcolor="lightgreen"];
+    n_COL_40002 [label="COL-40002\nTec. Sandra Patricia Gómez Xicol\nDEP-LAB\nTIPO-04", fillcolor="lightgreen"];
+    n_COL_50001 [label="COL-50001\nLic. Pedro Antonio Herrera Caal\nDEP-ADM\nTIPO-05", fillcolor="plum"];
+    n_COL_50002 [label="COL-50002\nLic. Gabriela Fernanda Castillo Ajú\nDEP-ADM\nTIPO-05", fillcolor="plum"];
+    n_COL_90003 [label="COL-90003\nDr. Andhre Espinoza\nSIN-DEP\nTIPO-01", fillcolor="gray80"];
+    n_COL_10001 -- n_COL_10002;
+    n_COL_10001 -- n_COL_10003;
+    n_COL_10002 -- n_COL_20001;
+    n_COL_10003 -- n_COL_20001;
+}

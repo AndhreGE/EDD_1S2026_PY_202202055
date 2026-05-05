@@ -1,0 +1,33 @@
+digraph ListaAdyacencia {
+    rankdir=TB;
+    node [shape=record, style=filled, fillcolor="lightyellow", fontname="Helvetica"];
+    nodo_0 [label="{ COL-10001 | COL-10002, COL-10003 }"];
+    nodo_1 [label="{ COL-10002 | COL-10001, COL-20001 }"];
+    nodo_0 -> nodo_1 [style=invis];
+    nodo_2 [label="{ COL-10003 | COL-10001, COL-20001 }"];
+    nodo_1 -> nodo_2 [style=invis];
+    nodo_3 [label="{ COL-20001 | COL-10002, COL-10003 }"];
+    nodo_2 -> nodo_3 [style=invis];
+    nodo_4 [label="{ COL-20002 | Sin colaboradores }"];
+    nodo_3 -> nodo_4 [style=invis];
+    nodo_5 [label="{ COL-20003 | Sin colaboradores }"];
+    nodo_4 -> nodo_5 [style=invis];
+    nodo_6 [label="{ COL-30001 | Sin colaboradores }"];
+    nodo_5 -> nodo_6 [style=invis];
+    nodo_7 [label="{ COL-30002 | Sin colaboradores }"];
+    nodo_6 -> nodo_7 [style=invis];
+    nodo_8 [label="{ COL-30003 | Sin colaboradores }"];
+    nodo_7 -> nodo_8 [style=invis];
+    nodo_9 [label="{ COL-30004 | Sin colaboradores }"];
+    nodo_8 -> nodo_9 [style=invis];
+    nodo_10 [label="{ COL-40001 | Sin colaboradores }"];
+    nodo_9 -> nodo_10 [style=invis];
+    nodo_11 [label="{ COL-40002 | Sin colaboradores }"];
+    nodo_10 -> nodo_11 [style=invis];
+    nodo_12 [label="{ COL-50001 | Sin colaboradores }"];
+    nodo_11 -> nodo_12 [style=invis];
+    nodo_13 [label="{ COL-50002 | Sin colaboradores }"];
+    nodo_12 -> nodo_13 [style=invis];
+    nodo_14 [label="{ COL-90003 | Sin colaboradores }"];
+    nodo_13 -> nodo_14 [style=invis];
+}

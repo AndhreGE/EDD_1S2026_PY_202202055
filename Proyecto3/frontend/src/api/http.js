@@ -1,34 +1,40 @@
-async function parseJsonSafe(response) {
-  const text = await response.text()
-  if (!text) return {}
-  try {
-    return JSON.parse(text)
-  } catch {
-    return { ok: 0, mensaje: text }
-  }
-}
+const API_BASE = import.meta.env.VITE_API_URL || ''
 
 export async function apiRequest(path, options = {}) {
+  const {
+    method = 'GET',
+    body,
+    headers = {}
+  } = options
+
+  const finalHeaders = { ...headers }
   const config = {
-    method: options.method || 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options.headers || {})
-    },
-    credentials: 'include'
+    method,
+    credentials: 'include',
+    headers: finalHeaders
   }
 
-  if (options.body !== undefined) {
-    config.body = typeof options.body === 'string'
-      ? options.body
-      : JSON.stringify(options.body)
+  if (body instanceof FormData) {
+    config.body = body
+  } else if (body !== undefined) {
+    finalHeaders['Content-Type'] = 'application/json'
+    config.body = JSON.stringify(body)
   }
 
-  const response = await fetch(path, config)
-  const data = await parseJsonSafe(response)
+  const response = await fetch(`${API_BASE}${path}`, config)
+
+  const contentType = response.headers.get('content-type') || ''
+  const data = contentType.includes('application/json')
+    ? await response.json()
+    : await response.text()
 
   if (!response.ok) {
-    throw new Error(data?.mensaje || `Error HTTP ${response.status}`)
+    const message =
+      typeof data === 'string'
+        ? data
+        : data?.mensaje || data?.error || 'Ocurrió un error en la solicitud'
+
+    throw new Error(message)
   }
 
   return data

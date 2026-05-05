@@ -1,0 +1,36 @@
+digraph TablaHashPersonal {
+    graph [charset="UTF-8", rankdir=LR];
+    node [fontname="DejaVu Sans"];
+    edge [fontname="DejaVu Sans"];
+    tabla [shape=record, style=filled, fillcolor="lightcyan", label="{Tabla Hash Personal|<b0> TIPO-01|<b1> TIPO-02|<b2> TIPO-03|<b3> TIPO-04|<b4> TIPO-05}"];
+    bucket_0_0 [shape=box, style=filled, fillcolor="lightyellow", label="COL-10001\nDr. Carlos Andrés Méndez Torres\nDEP-MED"];
+    tabla:b0 -> bucket_0_0;
+    bucket_0_1 [shape=box, style=filled, fillcolor="lightyellow", label="COL-10002\nDra. Sofía Alejandra Ramírez Cruz\nDEP-MED"];
+    bucket_0_0 -> bucket_0_1;
+    bucket_0_2 [shape=box, style=filled, fillcolor="lightyellow", label="COL-10003\nDr. Roberto Emilio Castillo Vega\nDEP-MED"];
+    bucket_0_1 -> bucket_0_2;
+    bucket_0_3 [shape=box, style=filled, fillcolor="lightyellow", label="COL-90003\nDr. Andhre Espinoza\nSIN-DEP"];
+    bucket_0_2 -> bucket_0_3;
+    bucket_1_0 [shape=box, style=filled, fillcolor="lightyellow", label="COL-20001\nDr. Alejandro Javier Morales Ríos\nDEP-CIR"];
+    tabla:b1 -> bucket_1_0;
+    bucket_1_1 [shape=box, style=filled, fillcolor="lightyellow", label="COL-20002\nDra. Valentina Beatriz Herrera Juárez\nDEP-CIR"];
+    bucket_1_0 -> bucket_1_1;
+    bucket_1_2 [shape=box, style=filled, fillcolor="lightyellow", label="COL-20003\nDr. Fernando José Alvarado Sánchez\nDEP-MED"];
+    bucket_1_1 -> bucket_1_2;
+    bucket_2_0 [shape=box, style=filled, fillcolor="lightyellow", label="COL-30001\nLic. María Elena González Ruiz\nDEP-FAR"];
+    tabla:b2 -> bucket_2_0;
+    bucket_2_1 [shape=box, style=filled, fillcolor="lightyellow", label="COL-30002\nLic. Carmen Alejandra Ponce López\nDEP-MED"];
+    bucket_2_0 -> bucket_2_1;
+    bucket_2_2 [shape=box, style=filled, fillcolor="lightyellow", label="COL-30003\nLic. Rosa Miriam Ajú Pérez\nDEP-CIR"];
+    bucket_2_1 -> bucket_2_2;
+    bucket_2_3 [shape=box, style=filled, fillcolor="lightyellow", label="COL-30004\nLic. Jorge Luis Monroy Castro\nDEP-FAR"];
+    bucket_2_2 -> bucket_2_3;
+    bucket_3_0 [shape=box, style=filled, fillcolor="lightyellow", label="COL-40001\nTec. Luis Fernando Morales Salazar\nDEP-LAB"];
+    tabla:b3 -> bucket_3_0;
+    bucket_3_1 [shape=box, style=filled, fillcolor="lightyellow", label="COL-40002\nTec. Sandra Patricia Gómez Xicol\nDEP-LAB"];
+    bucket_3_0 -> bucket_3_1;
+    bucket_4_0 [shape=box, style=filled, fillcolor="lightyellow", label="COL-50001\nLic. Pedro Antonio Herrera Caal\nDEP-ADM"];
+    tabla:b4 -> bucket_4_0;
+    bucket_4_1 [shape=box, style=filled, fillcolor="lightyellow", label="COL-50002\nLic. Gabriela Fernanda Castillo Ajú\nDEP-ADM"];
+    bucket_4_0 -> bucket_4_1;
+}
